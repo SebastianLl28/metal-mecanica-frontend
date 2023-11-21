@@ -1,0 +1,8 @@
+export { default as Customer } from './customer/Customer'
+export { default as Dashboard } from './dashboard/Dashboard'
+export { default as Login } from './login/Login'
+export { default as Orders } from './orders/Orders'
+export { default as PrivatePage } from './private-page/PrivatePage'
+export { default as Aside } from './private-page/components/aside/Aside'
+export { default as Profile } from './profile/Profile'
+export { default as Register } from './register/Register'
