@@ -27,7 +27,7 @@ const Login = () => {
       data: { token }
     } = await mutateAsync(user)
     if (status !== 200) {
-      toast.error('algo salio mal')
+      toast.error('Correo o contraseña incorrecta')
       return
     }
     setToken(token)
@@ -51,7 +51,7 @@ const Login = () => {
           />
         </Wrapper>
         <Wrapper>
-          <label htmlFor={idPassword}>Password</label>
+          <label htmlFor={idPassword}>Contraseña</label>
           <TextField
             type='password'
             id={idPassword}
