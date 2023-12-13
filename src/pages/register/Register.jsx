@@ -1,18 +1,28 @@
 import { useId } from 'react'
 import { styled } from 'styled-components'
-import { useForm } from 'react-hook-form'
-import { Input } from '../../styled-component/formComponents'
-import { useRegister } from '../../hooks/useAuth'
-import { Button, Link } from '../../components'
-import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { useRegister } from '../../hooks/useAuth'
+import {
+  Input,
+  Button,
+  Container,
+  Link,
+  WrapperInput
+} from '../../styled-component/Components'
 
 const Register = () => {
   const idName = useId()
   const idEmail = useId()
   const idPassword = useId()
 
-  const { handleSubmit, register, reset } = useForm()
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm()
 
   const { mutateAsync } = useRegister()
 
@@ -47,34 +57,56 @@ const Register = () => {
   return (
     <Container>
       <Form noValidate onSubmit={handleSubmit(handleSubmitForm)}>
-        <Title>Registrarse</Title>
-        <Wrapper>
+        <h2>Registrarse</h2>
+        <WrapperInput>
           <label htmlFor={idName}>Nombre</label>
-          <TextField
+          <Input
             type='text'
             id={idName}
             {...register('name', { required: true })}
+            isError={errors.name}
           />
-        </Wrapper>
-        <Wrapper>
+          {errors.name?.type === 'required' && (
+            <span className='error'>El nombre es requerido</span>
+          )}
+        </WrapperInput>
+        <WrapperInput>
           <label htmlFor={idEmail}>Correo</label>
-          <TextField
+          <Input
             type='email'
             id={idEmail}
             {...register('email', {
               required: true,
               pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
             })}
+            isError={errors.email}
           />
-        </Wrapper>
-        <Wrapper>
+          {(errors.email?.type === 'pattern' && (
+            <span className='error'>
+              El correo tiene que estar en el formato adecuado
+            </span>
+          )) ||
+            (errors.email?.type === 'required' && (
+              <span className='error'>El correo es requerido</span>
+            ))}
+        </WrapperInput>
+        <WrapperInput>
           <label htmlFor={idPassword}>Password</label>
-          <TextField
+          <Input
             type='password'
             id={idPassword}
             {...register('password', { required: true, minLength: 5 })}
+            isError={errors.password}
           />
-        </Wrapper>
+          {(errors.password?.type === 'required' && (
+            <span className='error'>La contraseña es requerida</span>
+          )) ||
+            (errors.password?.type === 'minLength' && (
+              <span className='error'>
+                La contraseña tiene que tener al menos 5 caracteres
+              </span>
+            ))}
+        </WrapperInput>
         <Button type='submit'>Ingresar</Button>
         <p>
           <span>Ya tienes cuenta? </span>
@@ -87,38 +119,20 @@ const Register = () => {
 
 export default Register
 
-const Container = styled.div`
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 const Form = styled.form`
   display: grid;
   justify-items: start;
-  gap: 1.2rem;
+  gap: 1.8rem;
   background-color: #fff;
   padding: 3rem 2rem;
   border-radius: 1rem;
   width: min(95%, 35rem);
   box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 30px;
-`
 
-const Title = styled.h2`
-  width: 100%;
-  font-weight: bold;
-  font-size: 2.5rem;
-  text-align: center;
-`
-
-const Wrapper = styled.div`
-  width: 100%;
-
-  label {
-    font-size: 1.2rem;
-    line-height: 1.8;
+  & > h2 {
+    width: 100%;
+    font-weight: bold;
+    font-size: 2.5rem;
+    text-align: center;
   }
 `
-
-const TextField = styled(Input)``

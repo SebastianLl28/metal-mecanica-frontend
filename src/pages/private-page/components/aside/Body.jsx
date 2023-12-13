@@ -1,7 +1,9 @@
 import {
   HouseDoorFill,
   PencilSquare,
-  FilePersonFill
+  FilePersonFill,
+  TagFill,
+  Boxes
 } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 import { Element, Link, List } from './Aside'
@@ -26,6 +28,18 @@ const Body = () => {
           <Link to='/orders'>
             <PencilSquare />
             Pedidos
+          </Link>
+        </Element>
+        <Element>
+          <Link to='/product'>
+            <Boxes />
+            Productos
+          </Link>
+        </Element>
+        <Element>
+          <Link to='/category'>
+            <TagFill />
+            Categoria
           </Link>
         </Element>
       </List>
