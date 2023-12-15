@@ -6,11 +6,9 @@ import {
 import { TableStyle } from '../../../styled-component/Components'
 import { useCustomer } from '../../../hooks/useCustomer'
 import { useAuthStore } from '../../../store/tokenStore'
-// import { useCustomerFilter } from '../../../store/customerFilterStore'
-// import { useEffect } from 'react'
+import { useState } from 'react'
 
 const Table = () => {
-  // id name lastName email address phone identification ruc createdAt updateAt
   const columns = [
     { header: 'Nombre', accessorKey: 'name' },
     { header: 'Apellido', accessorKey: 'lastName' },
@@ -25,14 +23,16 @@ const Table = () => {
 
   // const { filter } = useCustomerFilter()
 
+  const [person, setPerson] = useState({ name: '' })
+
   const {
     data: customer,
     isLoading,
     isError
     // refetch
-  } = useCustomer(token, { name: 'asdas' })
+  } = useCustomer(token, person)
 
-  const { getHeaderGroups, getRowModel, getFooterGroups } = useReactTable({
+  const { getHeaderGroups, getRowModel } = useReactTable({
     data: customer && !isLoading && !isError ? customer.data : [],
     columns,
     getCoreRowModel: getCoreRowModel()
@@ -43,43 +43,35 @@ const Table = () => {
   // }, [filter])
 
   return (
-    <TableStyle>
-      <thead>
-        {getHeaderGroups().map(headerGroup => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map(header => (
-              <th key={header.id}>{header.column.columnDef.header}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {getRowModel().rows.map(row => (
-          <tr key={row.id}>
-            {row.getVisibleCells().map(cell => (
-              <td key={cell.id}>
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-      <tfoot>
-        {getFooterGroups().map(footerGroup => (
-          <tr key={footerGroup.id}>
-            {footerGroup.headers.map(footer => (
-              // <th key={header.id}>{header.column.columnDef.footer}</th>
-              <th key={footer.id}>
-                {flexRender(
-                  footer.column.columnDef.footer,
-                  footer.getContext()
-                )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </tfoot>
-    </TableStyle>
+    <>
+      <input
+        type='text'
+        value={person.name}
+        onChange={e => setPerson(e.target.value)}
+      />
+      <TableStyle>
+        <thead>
+          {getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => (
+                <th key={header.id}>{header.column.columnDef.header}</th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {getRowModel().rows.map(row => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map(cell => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </TableStyle>
+    </>
   )
 }
 
