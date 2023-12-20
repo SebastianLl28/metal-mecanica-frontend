@@ -1,16 +1,11 @@
 import { create } from 'zustand'
-/*
-{
-  nombre: "",
-  paginación: 1,
-  customer_type: "all"
-}
-*/
-export const useCustomerFilter = create(set => ({
+
+export const useCustomerFilter = create((set, get) => ({
   filter: {
     name: '',
     pagination: 1,
-    customer_type: 'all'
+    customerType: 'all'
   },
-  setFilter: filter => set(state => ({ filter }))
+  setFilter: newFilter =>
+    set(state => ({ ...state, filter: { ...state.filter, ...newFilter } }))
 }))

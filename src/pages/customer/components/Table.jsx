@@ -1,12 +1,9 @@
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender
-} from '@tanstack/react-table'
+import { styled } from 'styled-components'
 import { TableStyle } from '../../../styled-component/Components'
 import { useCustomer } from '../../../hooks/useCustomer'
 import { useAuthStore } from '../../../store/tokenStore'
-import { useState } from 'react'
+import { useCustomerFilter } from '../../../store/customerFilterStore'
+import Pagination from './Pagination'
 
 const Table = () => {
   const columns = [
@@ -19,60 +16,71 @@ const Table = () => {
     { header: 'RUC', accessorKey: 'ruc' }
   ]
 
+  const { filter } = useCustomerFilter()
+
   const { token } = useAuthStore()
 
-  // const { filter } = useCustomerFilter()
-
-  const [person, setPerson] = useState({ name: '' })
-
-  const {
-    data: customer,
-    isLoading,
-    isError
-    // refetch
-  } = useCustomer(token, person)
-
-  const { getHeaderGroups, getRowModel } = useReactTable({
-    data: customer && !isLoading && !isError ? customer.data : [],
-    columns,
-    getCoreRowModel: getCoreRowModel()
-  })
-
-  // useEffect(() => {
-  //   refetch()
-  // }, [filter])
+  const { data: customer, isLoading, isError } = useCustomer(token, filter)
 
   return (
-    <>
-      <input
-        type='text'
-        value={person.name}
-        onChange={e => setPerson(e.target.value)}
-      />
+    <Main>
       <TableStyle>
         <thead>
-          {getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map(header => (
-                <th key={header.id}>{header.column.columnDef.header}</th>
-              ))}
-            </tr>
-          ))}
+          <tr>
+            {columns.map(column => (
+              <th key={column.header}>{column.header}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
-          {getRowModel().rows.map(row => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map(cell => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          {!isLoading &&
+            !isError &&
+            customer &&
+            customer.data.results.length === 0 && (
+              <tr>
+                <td colSpan={7} className='noData'>
+                  No hay resultados
                 </td>
-              ))}
+              </tr>
+            )}
+          {!isLoading &&
+            !isError &&
+            customer.data.results &&
+            customer.data.results.map(element => (
+              <tr key={element.id}>
+                {columns.map(column => (
+                  <td
+                    key={element.id + column.header}
+                    title={element[column.accessorKey]}>
+                    {element[column.accessorKey]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          {isLoading && !isError && (
+            <tr>
+              <td colSpan={7} className='loading'>
+                Cargando...
+              </td>
             </tr>
-          ))}
+          )}
+          {!isLoading && isError && (
+            <td colSpan={7} className='noData'>
+              Error del servidor
+            </td>
+          )}
         </tbody>
       </TableStyle>
-    </>
+      {!isLoading && !isError && customer && (
+        <Pagination info={customer.data.info} />
+      )}
+    </Main>
   )
 }
 
 export default Table
+
+const Main = styled.main`
+  display: grid;
+  gap: 1.5rem;
+`

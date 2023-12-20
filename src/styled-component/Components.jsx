@@ -21,6 +21,7 @@ export const Input = styled.input`
 
 export const TableStyle = styled.table`
   width: 100%;
+  min-height: 35rem;
   border: 1px solid #ddd;
 
   thead {
@@ -31,6 +32,12 @@ export const TableStyle = styled.table`
   th,
   td {
     padding: 16px;
+  }
+
+  .noData {
+    text-align: center;
+    font-size: 1.2em;
+    line-height: 30rem;
   }
 `
 export const Title = styled.h2`

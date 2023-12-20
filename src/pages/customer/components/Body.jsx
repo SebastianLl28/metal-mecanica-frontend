@@ -1,11 +1,13 @@
 import { styled } from 'styled-components'
 import Table from './Table'
-// import CustomerType from './CustomerType'
+import Search from './Search'
+import CustomerType from './CustomerType'
 
 const Body = () => {
   return (
     <Container>
-      {/* <CustomerType /> */}
+      <Search />
+      <CustomerType />
       <Table />
     </Container>
   )
