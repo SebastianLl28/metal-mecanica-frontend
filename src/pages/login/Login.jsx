@@ -30,17 +30,21 @@ const Login = () => {
   const { setToken } = useAuthStore()
 
   const handleSubmitForm = async user => {
-    const {
-      status,
-      data: { token }
-    } = await mutateAsync(user)
-    if (status !== 200) {
-      toast.error('Correo o contraseña incorrecta')
-      return
+    try {
+      const {
+        status,
+        data: { token }
+      } = await mutateAsync(user)
+      if (status !== 200 || !status) {
+        toast.error('Correo o contraseña incorrecta')
+        return
+      }
+      setToken(token)
+      toast.success('Te logueaste correctamente')
+      navigate('/dashboard')
+    } catch (error) {
+      toast.error('Sin conexión al servidor')
     }
-    setToken(token)
-    toast.success('Te logueaste correctamente')
-    navigate('/dashboard')
   }
 
   return (
