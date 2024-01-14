@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import customerApi from '../api/customer.api'
 
 const getAllCustomer = async (token, filter) => {
@@ -19,4 +19,21 @@ export const useCustomer = (token, filter) =>
     queryKey: ['findAllCustomer', token, filter],
     queryFn: () => getAllCustomer(token, filter),
     enabled: !!token
+  })
+
+const postCustomer = async (token, data) => {
+  try {
+    return await customerApi.post('', data, {
+      headers: {
+        token
+      }
+    })
+  } catch (error) {
+    return error.response
+  }
+}
+
+export const usePostCustomer = () =>
+  useMutation({
+    mutationFn: ({ token, data }) => postCustomer(token, data)
   })

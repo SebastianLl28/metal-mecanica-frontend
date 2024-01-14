@@ -9,10 +9,10 @@ export const Input = styled.input`
   color: black;
   padding: 0.7em 0.9em;
   border: 1px solid;
-  border-color: ${({ isError }) => (isError ? 'red' : '#ccc')};
+  border-color: ${({ $error }) => ($error ? 'red' : '#ccc')};
   &:focus {
     border: 1px solid;
-    border-color: ${({ isError }) => (isError ? 'red' : '#000')};
+    border-color: ${({ $error }) => ($error ? 'red' : '#000')};
   }
   &:disabled {
     background-color: #eee;
@@ -23,6 +23,7 @@ export const TableStyle = styled.table`
   width: 100%;
   min-height: 35rem;
   border: 1px solid #ddd;
+  overflow-y: scroll;
 
   thead {
     background-color: #f8f9fa;
@@ -32,6 +33,10 @@ export const TableStyle = styled.table`
   th,
   td {
     padding: 16px;
+  }
+
+  tr {
+    border: 1px solid black;
   }
 
   .noData {
@@ -44,15 +49,19 @@ export const Title = styled.h2`
   font-size: 2.1em;
   font-weight: bold;
 `
-export const Button = styled.button`
+export const Button = styled.button.attrs(props => ({
+  $padding: props.$padding || '.8em 1em',
+  width: props.width || '100%',
+  fontSize: props.fontSize || '1.1em'
+}))`
   color: #fff;
   background-color: #6366f1;
-  width: ${({ width }) => width || '100%'};
-  padding: ${({ padding }) => padding || '.8em 0'};
+  width: ${props => props.width};
+  padding: ${props => props.$padding};
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
-  font-size: ${({ fontSize }) => fontSize || '1.1em'};
+  font-size: ${props => props.fontSize};
 
   transition: background-color 0.2s;
 
@@ -60,6 +69,7 @@ export const Button = styled.button`
     background-color: #5559ce;
   }
 `
+
 export const Container = styled.div`
   min-height: 100vh;
   display: flex;

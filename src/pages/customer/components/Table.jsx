@@ -3,7 +3,7 @@ import { TableStyle } from '../../../styled-component/Components'
 import { useCustomer } from '../../../hooks/useCustomer'
 import { useAuthStore } from '../../../store/tokenStore'
 import { useCustomerFilter } from '../../../store/customerFilterStore'
-import Pagination from './Pagination'
+import Pagination from '../../../components/Pagination'
 
 const Table = () => {
   const columns = [
@@ -12,11 +12,11 @@ const Table = () => {
     { header: 'Email', accessorKey: 'email' },
     { header: 'Direccion', accessorKey: 'address' },
     { header: 'Telefono', accessorKey: 'phone' },
-    { header: 'Identificacion', accessorKey: 'identification' },
+    { header: 'Identificacion', accessorKey: 'document' },
     { header: 'RUC', accessorKey: 'ruc' }
   ]
 
-  const { filter } = useCustomerFilter()
+  const { filter, setFilter } = useCustomerFilter()
 
   const { token } = useAuthStore()
 
@@ -52,7 +52,7 @@ const Table = () => {
                   <td
                     key={element.id + column.header}
                     title={element[column.accessorKey]}>
-                    {element[column.accessorKey]}
+                    {element[column.accessorKey] ?? <p className='center'>-</p>}
                   </td>
                 ))}
               </tr>
@@ -72,7 +72,11 @@ const Table = () => {
         </tbody>
       </TableStyle>
       {!isLoading && !isError && customer && (
-        <Pagination info={customer.data.info} />
+        <Pagination
+          total={customer.data.info.pages}
+          current={filter.pagination}
+          onChange={pagination => setFilter({ pagination })}
+        />
       )}
     </Main>
   )
@@ -83,4 +87,9 @@ export default Table
 const Main = styled.main`
   display: grid;
   gap: 1.5rem;
+  width: 100%;
+
+  .center {
+    text-align: center;
+  }
 `
