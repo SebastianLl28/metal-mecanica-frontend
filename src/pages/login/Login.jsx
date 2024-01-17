@@ -1,19 +1,27 @@
+import { useId } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { styled } from 'styled-components'
-import { Input } from '../../styled-component/formComponents'
-import { useId } from 'react'
-import Button from '../../components/Button'
 import { useForm } from 'react-hook-form'
-import Link from '../../components/Link'
 import { useLogin } from '../../hooks/useAuth'
-import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/tokenStore'
+import {
+  Button,
+  Container,
+  Input,
+  Link,
+  WrapperInput
+} from '../../styled-component/Components'
 
 const Login = () => {
   const idEmail = useId()
   const idPassword = useId()
 
-  const { handleSubmit, register } = useForm()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm()
 
   const { mutateAsync } = useLogin()
 
@@ -22,52 +30,71 @@ const Login = () => {
   const { setToken } = useAuthStore()
 
   const handleSubmitForm = async user => {
-    const {
-      status,
-      data: { token }
-    } = await mutateAsync(user)
-    if (status !== 200) {
-      toast.error('algo salio mal')
-      return
+    try {
+      const {
+        status,
+        data: { token }
+      } = await mutateAsync(user)
+      if (status !== 200 || !status) {
+        toast.error('Correo o contraseña incorrecta')
+        return
+      }
+      setToken(token)
+      toast.success('Te logueaste correctamente')
+      navigate('/dashboard')
+    } catch (error) {
+      toast.error('Sin conexión al servidor')
     }
-    setToken(token)
-    toast.success('Te logueaste correctamente')
-    navigate('/dashboard')
   }
 
   return (
     <Container>
       <Form noValidate onSubmit={handleSubmit(handleSubmitForm)}>
-        <Title>Iniciar Sesión</Title>
-        <Wrapper>
+        <h2>Iniciar Sesión</h2>
+        <WrapperInput>
           <label htmlFor={idEmail}>Correo</label>
-          <TextField
+          <Input
             type='email'
             id={idEmail}
             {...register('email', {
               pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
               required: true
             })}
+            isError={errors.email}
           />
-        </Wrapper>
-        <Wrapper>
-          <label htmlFor={idPassword}>Password</label>
-          <TextField
+          {(errors.email?.type === 'required' && (
+            <span className='error'>El correo es requerido</span>
+          )) ||
+            (errors.email?.type === 'pattern' && (
+              <span className='error'>
+                El correo tiene que estar en el formato adecuado
+              </span>
+            ))}
+        </WrapperInput>
+        <WrapperInput>
+          <label htmlFor={idPassword}>Contraseña</label>
+          <Input
             type='password'
             id={idPassword}
             {...register('password', {
-              required: false,
+              required: true,
               minLength: 5
             })}
+            isError={errors.password}
           />
-        </Wrapper>
-        <Button type='submit' $width='100%' bg='red' inputColor='red'>
-          Ingresar
-        </Button>
+          {(errors.password?.type === 'required' && (
+            <span className='error'>La contraseña es requerido</span>
+          )) ||
+            (errors.password?.type === 'minLength' && (
+              <span className='error'>
+                La contraseña tiene que tener al menos 5 caracteres
+              </span>
+            ))}
+        </WrapperInput>
+        <Button type='submit'>Ingresar</Button>
         <p>
-          <span>
-            No tienes cuenta? <Link to='/register'>Registrarse</Link>
-          </span>
+          <span>No tienes cuenta? </span>
+          <Link to='/register'>Registrarse</Link>
         </p>
       </Form>
     </Container>
@@ -76,38 +103,20 @@ const Login = () => {
 
 export default Login
 
-const Container = styled.div`
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-
 const Form = styled.form`
   display: grid;
   justify-items: start;
-  gap: 1.2rem;
+  gap: 1.8rem;
   background-color: #fff;
   padding: 3rem 2rem;
   border-radius: 1rem;
   width: min(95%, 35rem);
   box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 30px;
-`
 
-const Title = styled.h2`
-  font-size: 2.5rem;
-  text-align: center;
-  width: 100%;
-  font-weight: bold;
-`
-
-const Wrapper = styled.div`
-  width: 100%;
-
-  label {
-    font-size: 1.2rem;
-    line-height: 1.8;
+  & > h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
   }
 `
-
-const TextField = styled(Input)``

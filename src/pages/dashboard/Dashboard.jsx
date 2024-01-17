@@ -1,11 +1,12 @@
 import styled from 'styled-components'
 import Header from './components/Header'
+import Body from './components/Body'
 
 const Dashboard = () => {
   return (
     <Main>
       <Header />
-      <Title>this is a dashboard component</Title>
+      <Body />
     </Main>
   )
 }
@@ -15,10 +16,7 @@ export default Dashboard
 const Main = styled.main`
   width: 100%;
   padding: 2rem;
-`
-
-const Title = styled.h2`
-  text-align: center;
-  font-size: 4em;
-  /* color: #fff; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 `

@@ -26,7 +26,7 @@ const App = () => {
         <Route path='/*' element={<h2>404 page</h2>} />
       </Routes>
       <ToastContainer
-        position='bottom-right'
+        position='bottom-center'
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}

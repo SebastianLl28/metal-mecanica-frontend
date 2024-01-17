@@ -24,7 +24,7 @@ const PrivatePage = () => {
 
   return (
     <>
-      {token && !isLoading && data.status === 200 ? (
+      {token && !isLoading && data?.status === 200 ? (
         <Container>
           <Aside />
           <Outlet />
@@ -33,7 +33,7 @@ const PrivatePage = () => {
         <Loader />
       )}
       {isLoading && <Loader />}
-      {!isLoading && data.status !== 200 && <Navigate to='/' />}
+      {!isLoading && data?.status !== 200 && <Navigate to='/' />}
     </>
   )
 }
