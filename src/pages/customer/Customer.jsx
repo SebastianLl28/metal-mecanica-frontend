@@ -19,6 +19,6 @@ const Container = styled.main`
   justify-items: center;
   align-items: start;
   flex-direction: column;
-  padding: 5rem;
+  padding: 4rem;
   gap: 2rem;
 `

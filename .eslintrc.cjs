@@ -23,6 +23,8 @@ module.exports = {
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
-    'multiline-ternary': 'off'
+    'multiline-ternary': 'off',
+    'no-unused-vars': 'warn',
+    'no-console': 'warn'
   }
 }

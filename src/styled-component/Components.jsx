@@ -1,5 +1,6 @@
 import { styled } from 'styled-components'
 import { Link as _Link } from 'react-router-dom'
+import { darken } from 'polished'
 
 export const Input = styled.input`
   background-color: #fff;
@@ -22,11 +23,10 @@ export const Input = styled.input`
 export const TableStyle = styled.table`
   width: 100%;
   min-height: 35rem;
-  border: 1px solid #ddd;
   overflow-y: scroll;
 
   thead {
-    background-color: #f8f9fa;
+    background-color: #f0f0f0;
     text-align: center;
   }
 
@@ -36,13 +36,32 @@ export const TableStyle = styled.table`
   }
 
   tr {
-    border: 1px solid black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s;
+    cursor: pointer;
+  }
+
+  thead tr:first-child {
+    border: unset;
+  }
+
+  tr:hover {
+    background-color: rgba(0, 0, 0, 0.015);
   }
 
   .noData {
     text-align: center;
     font-size: 1.2em;
     line-height: 30rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1.2rem;
+
+    & > button {
+      cursor: pointer;
+    }
   }
 `
 export const Title = styled.h2`
@@ -52,10 +71,11 @@ export const Title = styled.h2`
 export const Button = styled.button.attrs(props => ({
   $padding: props.$padding || '.8em 1em',
   width: props.width || '100%',
-  fontSize: props.fontSize || '1.1em'
+  fontSize: props.fontSize || '1.1em',
+  $bg: props.$bg || '#6366f1'
 }))`
   color: #fff;
-  background-color: #6366f1;
+  background-color: ${props => props.$bg};
   width: ${props => props.width};
   padding: ${props => props.$padding};
   border-radius: 10px;
@@ -66,7 +86,8 @@ export const Button = styled.button.attrs(props => ({
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #5559ce;
+    /* background-color: #5559ce; */
+    background-color: ${props => darken(0.08, props.$bg)};
   }
 `
 

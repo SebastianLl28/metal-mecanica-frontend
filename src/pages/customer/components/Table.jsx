@@ -4,23 +4,62 @@ import { useCustomer } from '../../../hooks/useCustomer'
 import { useAuthStore } from '../../../store/tokenStore'
 import { useCustomerFilter } from '../../../store/customerFilterStore'
 import Pagination from '../../../components/Pagination'
+import { ArrowRight, PencilFill } from 'react-bootstrap-icons'
+import { useModal } from '../../../hooks/useModal'
+import { useState, useEffect } from 'react'
+import ModalCustomer from './ModalCustomer'
+
+const initialColumns = [
+  { header: 'Nombre', accessorKey: 'name' },
+  { header: 'Apellido', accessorKey: 'lastName' },
+  { header: 'Email', accessorKey: 'email' },
+  { header: 'Direccion', accessorKey: 'address' },
+  { header: 'Telefono', accessorKey: 'phone' },
+  { header: 'Identificacion', accessorKey: 'document' },
+  { header: 'RUC', accessorKey: 'ruc' },
+  { header: 'Acciones', accessorKey: 'actions' }
+]
 
 const Table = () => {
-  const columns = [
-    { header: 'Nombre', accessorKey: 'name' },
-    { header: 'Apellido', accessorKey: 'lastName' },
-    { header: 'Email', accessorKey: 'email' },
-    { header: 'Direccion', accessorKey: 'address' },
-    { header: 'Telefono', accessorKey: 'phone' },
-    { header: 'Identificacion', accessorKey: 'document' },
-    { header: 'RUC', accessorKey: 'ruc' }
-  ]
+  const [columns, setColumns] = useState(initialColumns)
 
   const { filter, setFilter } = useCustomerFilter()
 
   const { token } = useAuthStore()
 
   const { data: customer, isLoading, isError } = useCustomer(token, filter)
+
+  const { ModalContainer, handleOpen, handleClose } = useModal()
+
+  const [idModal, setIdModal] = useState(null)
+  const [typeModal, setTypeModal] = useState(null)
+
+  useEffect(() => {
+    if (filter.customerType === 'company') {
+      const newColumns = initialColumns.filter(
+        element =>
+          element.header !== 'Identificacion' && element.header !== 'Apellido'
+      )
+      setColumns(newColumns)
+      return
+    }
+
+    if (filter.customerType === 'person') {
+      const newColumns = initialColumns.filter(
+        element => element.header !== 'RUC'
+      )
+      setColumns(newColumns)
+      return
+    }
+
+    setColumns(initialColumns)
+  }, [filter])
+
+  const handleOpenModal = info => {
+    setIdModal(info.id)
+    setTypeModal(info.type)
+    handleOpen()
+  }
 
   return (
     <Main>
@@ -52,7 +91,24 @@ const Table = () => {
                   <td
                     key={element.id + column.header}
                     title={element[column.accessorKey]}>
-                    {element[column.accessorKey] ?? <p className='center'>-</p>}
+                    {column.accessorKey === 'actions' ? (
+                      <div className='actions'>
+                        <button
+                          onClick={() =>
+                            handleOpenModal({ id: element.id, type: 'edit' })
+                          }>
+                          <PencilFill />
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleOpenModal({ id: element.id, type: 'read' })
+                          }>
+                          <ArrowRight />
+                        </button>
+                      </div>
+                    ) : (
+                      element[column.accessorKey] ?? <p className='center'>-</p>
+                    )}
                   </td>
                 ))}
               </tr>
@@ -72,12 +128,22 @@ const Table = () => {
         </tbody>
       </TableStyle>
       {!isLoading && !isError && customer && (
-        <Pagination
-          total={customer.data.info.pages}
-          current={filter.pagination}
-          onChange={pagination => setFilter({ pagination })}
-        />
+        <div className='container-pagination'>
+          <Pagination
+            total={customer.data.info.pages}
+            current={filter.pagination}
+            onChange={pagination => setFilter({ pagination })}
+          />
+        </div>
       )}
+      <ModalContainer>
+        <ModalCustomer
+          id={idModal}
+          type={typeModal}
+          setType={setTypeModal}
+          close={handleClose}
+        />
+      </ModalContainer>
     </Main>
   )
 }
@@ -91,5 +157,11 @@ const Main = styled.main`
 
   .center {
     text-align: center;
+  }
+
+  .container-pagination {
+    display: flex;
+    justify-content: end;
+    padding: 0 1.5rem 1.5rem 0;
   }
 `
