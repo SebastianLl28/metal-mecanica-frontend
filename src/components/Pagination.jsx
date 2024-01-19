@@ -21,7 +21,10 @@ const PaginationStyle = styled(ResponsivePagination)`
     width: 3rem;
     height: 2em;
     font-weight: bold;
-    box-shadow: 0px 0px 10px 0px #00000028;
+    border-radius: 0.5rem;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    box-shadow: -2px 2px 4px 1px #00000028;
   }
 
   .page-item.active .page-link {

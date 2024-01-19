@@ -1,29 +1,72 @@
-import React, { useState } from 'react'
-import { createPortal } from 'react-dom'
-import Modal from '../components/Modal'
+import { useState } from 'react'
+import styled from 'styled-components'
 
-const useModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalContent, setModalContent] = useState(null)
+export const useModal = () => {
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-  const openModal = content => {
-    setIsModalOpen(true)
-    setModalContent(content)
+  const handleOutsideClick = event => {
+    if (event.target === event.currentTarget) {
+      handleClose()
+    }
+  }
+  const ModalContainer = ({ children }) => {
+    return open ? (
+      <Modal onClose={handleClose} onMouseUp={handleOutsideClick}>
+        <div>{children}</div>
+      </Modal>
+    ) : null
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false)
-    setModalContent(null)
-  }
-
-  const modalComponent =
-    isModalOpen &&
-    createPortal(
-      <Modal closeModal={closeModal}>{modalContent}</Modal>,
-      document.body
-    )
-
-  return { openModal, closeModal, modalComponent }
+  return { open, handleOpen, handleClose, ModalContainer }
 }
 
-export default useModal
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+
+  & > div {
+    position: absolute;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    animation: init-modal 0.3s forwards;
+  }
+
+  @keyframes init-modal {
+    from {
+      transform: translateY(2rem);
+    }
+
+    to {
+      transform: translateY(0rem);
+    }
+  }
+
+  .confirm {
+    & > div {
+      background-color: red;
+    }
+  }
+
+  .title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .container-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+`

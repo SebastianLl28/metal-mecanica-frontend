@@ -1,14 +1,10 @@
 import styled from 'styled-components'
 import { Button, Title } from '../../../styled-component/Components'
-import useModal from '../../../hooks/useModal'
+import { useModal } from '../../../hooks/useModal'
 import CreateCustomer from './CreateCustomer'
 
 const Header = () => {
-  const { openModal, modalComponent, closeModal } = useModal()
-
-  const handleClickOpen = () => {
-    openModal(<CreateCustomer close={closeModal} />)
-  }
+  const { ModalContainer, handleOpen, handleClose } = useModal()
 
   return (
     <Wrapper>
@@ -17,10 +13,12 @@ const Header = () => {
         width='fit-content'
         fontSize='1em'
         $padding='0 1rem'
-        onClick={handleClickOpen}>
+        onClick={handleOpen}>
         Agregar
       </Button>
-      {modalComponent}
+      <ModalContainer>
+        <CreateCustomer close={handleClose} />
+      </ModalContainer>
     </Wrapper>
   )
 }

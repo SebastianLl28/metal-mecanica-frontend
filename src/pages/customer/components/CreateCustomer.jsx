@@ -30,14 +30,12 @@ const CreateCustomer = ({ close }) => {
   const queryClient = useQueryClient()
 
   const onSubmit = async data => {
-    console.log(data)
     const response = await mutateAsync({ token, data })
     if (response.status === 200) {
       reset()
       queryClient.invalidateQueries('findAllCustomer')
       close()
     }
-    console.log(response)
   }
 
   useEffect(() => {
@@ -111,12 +109,12 @@ const CreateCustomer = ({ close }) => {
             <Input
               id={idName}
               type='text'
-              {...register('identification', {
+              {...register('document', {
                 required: isPerson
               })}
-              isError={errors.identification}
+              isError={errors.document}
             />
-            {errors.identification?.type === 'required' && (
+            {errors.document?.type === 'required' && (
               <span className='error'>La identificación es requerida</span>
             )}
           </WrapperInput>

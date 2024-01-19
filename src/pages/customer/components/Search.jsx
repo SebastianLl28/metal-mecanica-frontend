@@ -9,6 +9,7 @@ const Search = () => {
       <Input
         type='text'
         value={filter.name}
+        placeholder='Buscar a...'
         onChange={e => setFilter({ name: e.target.value, pagination: 1 })}
       />
     </div>
