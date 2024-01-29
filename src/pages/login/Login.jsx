@@ -110,7 +110,7 @@ const Form = styled.form`
   background-color: #fff;
   padding: 3rem 2rem;
   border-radius: 1rem;
-  width: min(95%, 35rem);
+  width: min(95%, 32rem);
   box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 30px;
 
   & > h2 {
