@@ -1,25 +1,31 @@
-import { useId } from "react"
+import { useId } from 'react'
+import {
+  WrapperInput,
+  Input as InputStyleComponent
+} from '../../styled-component/Components'
 
-const Input = ({ className, type="text", label, hookForm, error, ...args }) => {
-
+const Input = ({
+  className,
+  type = 'text',
+  label,
+  hookForm,
+  error,
+  ...args
+}) => {
   const id = useId()
 
   return (
-    <div>
-      {label ? (
-        <label
-          htmlFor={id}
-        >
-          {label}
-        </label>
-      ) : null}
-      <input type={type} {...args} />
-      {error ? (
-        <span className='absolute -bottom-px left-0 text-xs text-red-500'>
-          {error.message}
-        </span>
-      ) : null}
-    </div>
+    <WrapperInput className='email'>
+      {label && <label htmlFor={id}>{label}</label>}
+      <InputStyleComponent
+        id={id}
+        type={type}
+        {...args}
+        {...hookForm}
+        $error={error}
+      />
+      {error ? <span className='error'>{error.message}</span> : null}
+    </WrapperInput>
   )
 }
 
