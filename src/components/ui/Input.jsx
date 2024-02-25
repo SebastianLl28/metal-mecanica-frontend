@@ -9,13 +9,14 @@ const Input = ({
   type = 'text',
   label,
   hookForm,
+  wrapperClass,
   error,
   ...args
 }) => {
   const id = useId()
 
   return (
-    <WrapperInput className='email'>
+    <WrapperInput className={wrapperClass}>
       {label && <label htmlFor={id}>{label}</label>}
       <InputStyleComponent
         id={id}

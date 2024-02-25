@@ -1,10 +1,9 @@
-import styled from "styled-components"
-import { Button, Title } from "../../../styled-component/Components"
-import { useModal } from "../../../hooks/useModal"
-import CreateOrder from "./CreateOrder"
+import styled from 'styled-components'
+import { Button, Title } from '../../../styled-component/Components'
+import { useModal } from '../../../hooks/useModal'
+// import CreateOrder from "./CreateOrder"
 
 const Header = () => {
-
   const { ModalContainer, handleOpen, handleClose } = useModal()
 
   return (
@@ -14,12 +13,11 @@ const Header = () => {
         width='fit-content'
         fontSize='1em'
         $padding='0 1rem'
-        onClick={handleOpen}
-        >
+        onClick={handleOpen}>
         Agregar
       </Button>
       <ModalContainer>
-        <CreateOrder close={handleClose}/>
+        {/* <CreateOrder close={handleClose}/> */}
       </ModalContainer>
     </Wrapper>
   )
@@ -28,7 +26,7 @@ const Header = () => {
 export default Header
 
 const Wrapper = styled.header`
-display: flex;
-justify-content: space-between;
-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `
