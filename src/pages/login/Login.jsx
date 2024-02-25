@@ -1,96 +1,52 @@
-import { useId } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { styled } from 'styled-components'
 import { useForm } from 'react-hook-form'
-import { useLogin } from '../../hooks/useAuth'
-import { useAuthStore } from '../../store/tokenStore'
-import {
-  Button,
-  Container,
-  Input,
-  Link,
-  WrapperInput
-} from '../../styled-component/Components'
+import { Button, Container, Link } from '../../styled-component/Components'
+import { useLogin } from './hooks/useLogin'
+import Input from '../../components/ui/Input'
 
 const Login = () => {
-  const idEmail = useId()
-  const idPassword = useId()
-
   const {
     handleSubmit,
     register,
     formState: { errors }
   } = useForm()
 
-  const { mutateAsync } = useLogin()
-
-  const navigate = useNavigate()
-
-  const { setToken } = useAuthStore()
+  const { mutate } = useLogin()
 
   const handleSubmitForm = async user => {
-    try {
-      const {
-        status,
-        data: { token }
-      } = await mutateAsync(user)
-      if (status !== 200 || !status) {
-        toast.error('Correo o contraseña incorrecta')
-        return
-      }
-      setToken(token)
-      toast.success('Te logueaste correctamente')
-      navigate('/dashboard')
-    } catch (error) {
-      toast.error('Sin conexión al servidor')
-    }
+    mutate(user)
   }
 
   return (
     <Container>
       <Form noValidate onSubmit={handleSubmit(handleSubmitForm)}>
         <h2>Iniciar Sesión</h2>
-        <WrapperInput>
-          <label htmlFor={idEmail}>Correo</label>
-          <Input
-            type='email'
-            id={idEmail}
-            {...register('email', {
-              pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-              required: true
-            })}
-            isError={errors.email}
-          />
-          {(errors.email?.type === 'required' && (
-            <span className='error'>El correo es requerido</span>
-          )) ||
-            (errors.email?.type === 'pattern' && (
-              <span className='error'>
-                El correo tiene que estar en el formato adecuado
-              </span>
-            ))}
-        </WrapperInput>
-        <WrapperInput>
-          <label htmlFor={idPassword}>Contraseña</label>
-          <Input
-            type='password'
-            id={idPassword}
-            {...register('password', {
-              required: true,
-              minLength: 5
-            })}
-            isError={errors.password}
-          />
-          {(errors.password?.type === 'required' && (
-            <span className='error'>La contraseña es requerido</span>
-          )) ||
-            (errors.password?.type === 'minLength' && (
-              <span className='error'>
-                La contraseña tiene que tener al menos 5 caracteres
-              </span>
-            ))}
-        </WrapperInput>
+        <Input
+          label='Correo'
+          error={errors?.email}
+          hookForm={{
+            ...register('email', {
+              required: 'El correo es requerido',
+              pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: 'El correo tiene que estar en el formato adecuado'
+              }
+            })
+          }}
+        />
+        <Input
+          label='Contraseña'
+          error={errors?.password}
+          hookForm={{
+            ...register('password', {
+              required: 'La contraseña es requerida',
+              minLength: {
+                value: 5,
+                message: 'La contraseña tiene que tener al menos 5 caracteres'
+              }
+            })
+          }}
+        />
         <Button type='submit'>Ingresar</Button>
         <p>
           <span>No tienes cuenta? </span>

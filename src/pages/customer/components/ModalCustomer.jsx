@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form'
 import { PencilFill, TrashFill } from 'react-bootstrap-icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
-import LoadingModalCusomer from './LoadingModalCusomer'
+import LoadingModalCusomer from '../shared/LoadingModalCusomer'
 
 const ModalCustomer = ({ id, type, setType, close }) => {
   const idName = useId()
@@ -98,7 +98,7 @@ const ModalCustomer = ({ id, type, setType, close }) => {
 
   return (
     <Main onSubmit={handleSubmit(handleOnSubmit)}>
-      <h2>{ type === 'edit' ? 'Editar Cliente' : 'Cliente'}</h2>
+      <h2>{type === 'edit' ? 'Editar Cliente' : 'Cliente'}</h2>
       {(isLoading && !isError) || (!typeCustomer && <LoadingModalCusomer />)}
       {!isLoading && !isError && data && typeCustomer && (
         <div className={`container ${typeCustomer ?? 'null'}`}>
@@ -276,7 +276,8 @@ const Main = styled.form.attrs(props => ({
       grid-template-columns: 1fr 1fr;
       grid-template-rows: repeat(3, 1fr);
 
-      & > div:nth-child(3), & > div:nth-child(4) {
+      & > div:nth-child(3),
+      & > div:nth-child(4) {
         grid-column: 1 / 3;
       }
     }

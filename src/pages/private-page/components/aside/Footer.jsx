@@ -1,13 +1,14 @@
 import { PersonFill, DoorClosedFill } from 'react-bootstrap-icons'
 import { Element, Link, List } from './Aside'
-import { useAuthStore } from '../../../../store/tokenStore'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
-  const { clearToken } = useAuthStore()
+  const navigate = useNavigate()
 
   const logout = () => {
-    clearToken()
+    localStorage.removeItem('token')
+    navigate('/', { replace: true })
   }
 
   return (

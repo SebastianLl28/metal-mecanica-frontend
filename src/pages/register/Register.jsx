@@ -3,7 +3,6 @@ import { styled } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { useRegister } from '../../hooks/useAuth'
 import {
   Input,
   Button,
@@ -11,6 +10,7 @@ import {
   Link,
   WrapperInput
 } from '../../styled-component/Components'
+import { useRegister } from './hooks/useRegister'
 
 const Register = () => {
   const idName = useId()
@@ -24,34 +24,35 @@ const Register = () => {
     formState: { errors }
   } = useForm()
 
-  const { mutateAsync } = useRegister()
+  const { mutate } = useRegister()
 
   const navigate = useNavigate()
 
   const handleSubmitForm = async user => {
-    const id = toast.loading('Cargando')
-    const response = await mutateAsync(user)
-    if (response.status !== 201) {
-      toast.update(id, {
-        type: 'error',
-        render: 'algo salio mal',
-        isLoading: false,
-        autoClose: 3000,
-        closeOnClick: true,
-        draggable: true
-      })
-      return
-    }
-    reset()
-    toast.update(id, {
-      render: 'Te registraste',
-      type: 'success',
-      isLoading: false,
-      autoClose: 3000,
-      closeOnClick: true,
-      draggable: true
-    })
-    navigate('/')
+    mutate(user)
+    // const id = toast.loading('Cargando')
+    // const response = await mutateAsync(user)
+    // if (response.status !== 201) {
+    //   toast.update(id, {
+    //     type: 'error',
+    //     render: 'algo salio mal',
+    //     isLoading: false,
+    //     autoClose: 3000,
+    //     closeOnClick: true,
+    //     draggable: true
+    //   })
+    //   return
+    // }
+    // reset()
+    // toast.update(id, {
+    //   render: 'Te registraste',
+    //   type: 'success',
+    //   isLoading: false,
+    //   autoClose: 3000,
+    //   closeOnClick: true,
+    //   draggable: true
+    // })
+    // navigate('/')
   }
 
   return (

@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
-import Table from './Table'
-import Search from './Search'
-import CustomerType from './CustomerType'
+import Table from '../components/Table'
+import Search from '../shared/Search'
+import CustomerType from '../components/CustomerType'
 
 const Body = () => {
   return (

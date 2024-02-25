@@ -1,13 +1,12 @@
 import { styled } from 'styled-components'
 import { TableStyle } from '../../../styled-component/Components'
-import { useCustomer } from '../../../hooks/useCustomer'
-import { useAuthStore } from '../../../store/tokenStore'
 import { useCustomerFilter } from '../../../store/customerFilterStore'
 import Pagination from '../../../components/Pagination'
 import { ArrowRight, PencilFill } from 'react-bootstrap-icons'
 import { useModal } from '../../../hooks/useModal'
 import { useState, useEffect } from 'react'
 import ModalCustomer from './ModalCustomer'
+import { useCustomer } from '../hooks/customers.hooks'
 
 const initialColumns = [
   { header: 'Nombre', accessorKey: 'name' },
@@ -25,9 +24,7 @@ const Table = () => {
 
   const { filter, setFilter } = useCustomerFilter()
 
-  const { token } = useAuthStore()
-
-  const { data: customer, isLoading, isError } = useCustomer(token, filter)
+  const { data: customer, isLoading, isError } = useCustomer(filter)
 
   const { ModalContainer, handleOpen, handleClose } = useModal()
 

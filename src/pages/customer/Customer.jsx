@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import Header from './components/Header'
-import Body from './components/Body'
+import Header from './layouts/Header'
+import Body from './layouts/Body'
 
 const Customer = () => {
   return (
