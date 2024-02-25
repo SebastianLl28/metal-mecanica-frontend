@@ -1,10 +1,6 @@
 import { useId } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { styled } from 'styled-components'
 import { useForm } from 'react-hook-form'
-import { useLogin } from '../../hooks/useAuth'
-import { useAuthStore } from '../../store/tokenStore'
 import {
   Button,
   Container,
@@ -12,6 +8,7 @@ import {
   Link,
   WrapperInput
 } from '../../styled-component/Components'
+import { useLogin } from './hooks/useLogin'
 
 const Login = () => {
   const idEmail = useId()
@@ -23,28 +20,10 @@ const Login = () => {
     formState: { errors }
   } = useForm()
 
-  const { mutateAsync } = useLogin()
-
-  const navigate = useNavigate()
-
-  const { setToken } = useAuthStore()
+  const { mutate } = useLogin()
 
   const handleSubmitForm = async user => {
-    try {
-      const {
-        status,
-        data: { token }
-      } = await mutateAsync(user)
-      if (status !== 200 || !status) {
-        toast.error('Correo o contraseña incorrecta')
-        return
-      }
-      setToken(token)
-      toast.success('Te logueaste correctamente')
-      navigate('/dashboard')
-    } catch (error) {
-      toast.error('Sin conexión al servidor')
-    }
+    mutate(user)
   }
 
   return (

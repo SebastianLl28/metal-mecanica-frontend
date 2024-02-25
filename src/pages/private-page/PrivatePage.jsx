@@ -1,39 +1,22 @@
-import { Outlet, useNavigate, Navigate } from 'react-router-dom'
-import { useAuthStore } from '../../store/tokenStore'
-import { useEffect } from 'react'
-import { useVerifyToken } from '../../hooks/useAuth'
+import { Outlet, Navigate } from 'react-router-dom'
 import Loader from '../../components/Loader'
 import styled from 'styled-components'
 import Aside from './components/aside/Aside'
+import { useVerifyToken } from './hooks/useVerify'
 
 const PrivatePage = () => {
-  const { token, clearToken } = useAuthStore()
-
-  const navigate = useNavigate()
-
-  const { data, isLoading } = useVerifyToken(token ?? '')
-
-  const invalidateToken = () => {
-    clearToken()
-    navigate('/')
-  }
-
-  useEffect(() => {
-    if (!token) invalidateToken()
-  }, [token, isLoading])
+  const { isLoading, isError, isSuccess } = useVerifyToken()
 
   return (
     <>
-      {token && !isLoading && data?.status === 200 ? (
+      {isSuccess && !isError && !isLoading && (
         <Container>
           <Aside />
           <Outlet />
         </Container>
-      ) : (
-        <Loader />
       )}
       {isLoading && <Loader />}
-      {!isLoading && data?.status !== 200 && <Navigate to='/' />}
+      {isError && <Navigate to='/' />}
     </>
   )
 }
