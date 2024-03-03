@@ -11,8 +11,7 @@ export const usePostCustomer = () => {
       queryClient.invalidateQueries('findAllCustomer')
       toast.success(res.data.message ?? 'Cliente agregado')
     },
-    onError: err => {
-      console.log(err)
+    onError: () => {
       toast.error('Error al agregar cliente')
     }
   })

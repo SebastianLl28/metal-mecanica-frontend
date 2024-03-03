@@ -4,5 +4,6 @@ import { getAllCustomer } from '../services/customers.services'
 export const useCustomer = filter =>
   useQuery({
     queryKey: ['findAllCustomer', filter],
-    queryFn: () => getAllCustomer(filter)
+    queryFn: () => getAllCustomer(filter),
+    refetchOnWindowFocus: false
   })

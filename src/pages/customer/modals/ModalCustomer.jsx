@@ -1,9 +1,5 @@
 import { styled } from 'styled-components'
-import {
-  useDeleteCustomer,
-  useGetCustomerById,
-  usePutCustomer
-} from '../../../hooks/useCustomer'
+import { useDeleteCustomer, usePutCustomer } from '../../../hooks/useCustomer'
 import { useAuthStore } from '../../../store/tokenStore'
 import { useEffect, useState, useId } from 'react'
 import {
@@ -16,6 +12,7 @@ import { PencilFill, TrashFill } from 'react-bootstrap-icons'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import LoadingModalCusomer from '../shared/LoadingModalCusomer'
+import { useGetCustomerById } from '../hooks/useGetCustomerById'
 
 const ModalCustomer = ({ id, type, setType, close }) => {
   const idName = useId()
@@ -26,8 +23,7 @@ const ModalCustomer = ({ id, type, setType, close }) => {
   const idDocument = useId()
   const idRuc = useId()
 
-  const { token } = useAuthStore()
-  const { data, isLoading, isError } = useGetCustomerById(token, id)
+  const { data, isLoading, isError } = useGetCustomerById(id)
   const [typeCustomer, setTypeCustomer] = useState(null)
 
   const {
@@ -62,7 +58,7 @@ const ModalCustomer = ({ id, type, setType, close }) => {
     }
   }, [data])
 
-  const { mutateAsync } = usePutCustomer(token, id)
+  const { mutateAsync } = usePutCustomer(id)
 
   const queryClient = useQueryClient()
 
@@ -83,7 +79,7 @@ const ModalCustomer = ({ id, type, setType, close }) => {
   }
 
   const { mutateAsync: deleteCustomerMutateAsync } = useDeleteCustomer(
-    token,
+    // token,
     id
   )
 
@@ -311,3 +307,4 @@ const Main = styled.form.attrs(props => ({
     }
   }
 `
+// 314

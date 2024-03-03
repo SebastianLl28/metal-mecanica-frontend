@@ -4,24 +4,15 @@ import { useCustomerFilter } from '../../../store/customerFilterStore'
 import Pagination from '../../../components/Pagination'
 import { ArrowRight, PencilFill } from 'react-bootstrap-icons'
 import { useModal } from '../../../hooks/useModal'
-import { useState, useEffect } from 'react'
-import ModalCustomer from './ModalCustomer'
-import { useCustomer } from '../hooks/customers.hooks'
-
-const initialColumns = [
-  { header: 'Nombre', accessorKey: 'name' },
-  { header: 'Apellido', accessorKey: 'lastName' },
-  { header: 'Email', accessorKey: 'email' },
-  { header: 'Direccion', accessorKey: 'address' },
-  { header: 'Telefono', accessorKey: 'phone' },
-  { header: 'Identificacion', accessorKey: 'document' },
-  { header: 'RUC', accessorKey: 'ruc' },
-  { header: 'Acciones', accessorKey: 'actions' }
-]
+import { useState } from 'react'
+import ModalCustomer from '../modals/ModalCustomer'
+import {
+  useColumnsViews,
+  useCustomer,
+  usePreFetchUseGetCustomerById
+} from '../hooks'
 
 const Table = () => {
-  const [columns, setColumns] = useState(initialColumns)
-
   const { filter, setFilter } = useCustomerFilter()
 
   const { data: customer, isLoading, isError } = useCustomer(filter)
@@ -31,32 +22,15 @@ const Table = () => {
   const [idModal, setIdModal] = useState(null)
   const [typeModal, setTypeModal] = useState(null)
 
-  useEffect(() => {
-    if (filter.customerType === 'company') {
-      const newColumns = initialColumns.filter(
-        element =>
-          element.header !== 'Identificacion' && element.header !== 'Apellido'
-      )
-      setColumns(newColumns)
-      return
-    }
-
-    if (filter.customerType === 'person') {
-      const newColumns = initialColumns.filter(
-        element => element.header !== 'RUC'
-      )
-      setColumns(newColumns)
-      return
-    }
-
-    setColumns(initialColumns)
-  }, [filter])
+  const { columns } = useColumnsViews(filter.customerType)
 
   const handleOpenModal = info => {
     setIdModal(info.id)
     setTypeModal(info.type)
     handleOpen()
   }
+
+  const { preFetchUserById } = usePreFetchUseGetCustomerById()
 
   return (
     <Main>
@@ -89,7 +63,9 @@ const Table = () => {
                     key={element.id + column.header}
                     title={element[column.accessorKey]}>
                     {column.accessorKey === 'actions' ? (
-                      <div className='actions'>
+                      <div
+                        className='actions'
+                        onMouseEnter={() => preFetchUserById(element.id)}>
                         <button
                           onClick={() =>
                             handleOpenModal({ id: element.id, type: 'edit' })
