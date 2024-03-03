@@ -11,13 +11,19 @@ const Input = ({
   hookForm,
   wrapperClass,
   error,
+  isRequired = false,
   ...args
 }) => {
   const id = useId()
 
   return (
     <WrapperInput className={wrapperClass}>
-      {label && <label htmlFor={id}>{label}</label>}
+      {label && (
+        <label htmlFor={id}>
+          <span>{label}</span>
+          {isRequired && <span className='required'>*</span>}
+        </label>
+      )}
       <InputStyleComponent
         id={id}
         type={type}
