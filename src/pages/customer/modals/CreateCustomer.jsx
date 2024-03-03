@@ -3,7 +3,7 @@ import { Button } from '../../../styled-component/Components'
 import InputTest from '../../../components/ui/Input'
 import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
-import TypeClient from './TypeClient'
+import TypeClient from '../components/TypeClient'
 import { usePostCustomer } from '../hooks/usePostCustomer'
 
 const CreateCustomer = ({ close }) => {
@@ -40,9 +40,13 @@ const CreateCustomer = ({ close }) => {
           wrapperClass={`name ${!isPerson && 'span'}`}
           hookForm={{
             ...register('name', {
-              required: true
+              required: {
+                value: true,
+                message: 'El nombre es requerido'
+              }
             })
           }}
+          isRequired={true}
         />
         {isPerson && (
           <InputTest
@@ -52,10 +56,12 @@ const CreateCustomer = ({ close }) => {
             hookForm={{
               ...register('lastName', {
                 required: {
-                  value: isPerson
+                  value: isPerson,
+                  message: 'El apellido es requerido'
                 }
               })
             }}
+            isRequired={isPerson}
           />
         )}
         <InputTest
@@ -72,9 +78,13 @@ const CreateCustomer = ({ close }) => {
           label='Dirección'
           error={errors?.address}
           wrapperClass='address'
+          isRequired={true}
           hookForm={{
             ...register('address', {
-              required: true
+              required: {
+                value: true,
+                message: 'La dirección es requerida'
+              }
             })
           }}
         />
@@ -94,12 +104,16 @@ const CreateCustomer = ({ close }) => {
         )}
         {!isPerson && (
           <InputTest
-            label='ruc'
+            label='Ruc'
             error={errors?.ruc}
             wrapperClass='ruc'
+            isRequired={!isPerson}
             hookForm={{
               ...register('ruc', {
-                required: !isPerson,
+                required: {
+                  value: !isPerson,
+                  message: 'El ruc es requerido'
+                },
                 pattern: /^[0-9]{11}$/
               })
             }}
@@ -156,4 +170,3 @@ const Container = styled.div`
     grid-column: span 2;
   }
 `
-// 193 lines

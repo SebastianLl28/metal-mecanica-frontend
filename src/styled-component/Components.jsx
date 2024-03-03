@@ -117,4 +117,8 @@ export const WrapperInput = styled.div`
     font-size: 0.8em;
     padding: 0.2em 0 0 0.3em;
   }
+
+  & > label > .required {
+    color: red;
+  }
 `
