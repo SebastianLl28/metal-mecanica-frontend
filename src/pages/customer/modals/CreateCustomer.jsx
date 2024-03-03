@@ -1,10 +1,10 @@
 import { styled } from 'styled-components'
-import { Button } from '../../../styled-component/Components'
-import InputTest from '../../../components/ui/Input'
 import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
 import TypeClient from '../components/TypeClient'
 import { usePostCustomer } from '../hooks/usePostCustomer'
+import Input from '@components/ui/Input'
+import { Button } from '@styled/Components'
 
 const CreateCustomer = ({ close }) => {
   const [isPerson, setIsPerson] = useState(true)
@@ -34,7 +34,7 @@ const CreateCustomer = ({ close }) => {
         <TypeClient isPerson={isPerson} setIsPerson={setIsPerson} />
       </header>
       <Container>
-        <InputTest
+        <Input
           label='Nombre'
           error={errors?.name}
           wrapperClass={`name ${!isPerson && 'span'}`}
@@ -49,7 +49,7 @@ const CreateCustomer = ({ close }) => {
           isRequired={true}
         />
         {isPerson && (
-          <InputTest
+          <Input
             label='Apellido'
             error={errors?.lastName}
             wrapperClass='lastName'
@@ -64,7 +64,7 @@ const CreateCustomer = ({ close }) => {
             isRequired={isPerson}
           />
         )}
-        <InputTest
+        <Input
           label='Correo'
           error={errors?.email}
           wrapperClass='email'
@@ -74,7 +74,7 @@ const CreateCustomer = ({ close }) => {
             })
           }}
         />
-        <InputTest
+        <Input
           label='Dirección'
           error={errors?.address}
           wrapperClass='address'
@@ -88,14 +88,14 @@ const CreateCustomer = ({ close }) => {
             })
           }}
         />
-        <InputTest
+        <Input
           label='Telefono'
           error={errors?.phone}
           wrapperClass='phone'
           hookForm={{ ...register('phone') }}
         />
         {isPerson && (
-          <InputTest
+          <Input
             label='Identificación'
             error={errors?.document}
             wrapperClass='identification'
@@ -103,7 +103,7 @@ const CreateCustomer = ({ close }) => {
           />
         )}
         {!isPerson && (
-          <InputTest
+          <Input
             label='Ruc'
             error={errors?.ruc}
             wrapperClass='ruc'

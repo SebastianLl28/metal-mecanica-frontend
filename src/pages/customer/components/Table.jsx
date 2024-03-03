@@ -1,9 +1,5 @@
 import { styled } from 'styled-components'
-import { TableStyle } from '../../../styled-component/Components'
-import { useCustomerFilter } from '../../../store/customerFilterStore'
-import Pagination from '../../../components/Pagination'
 import { ArrowRight, PencilFill } from 'react-bootstrap-icons'
-import { useModal } from '../../../hooks/useModal'
 import { useState } from 'react'
 import ModalCustomer from '../modals/ModalCustomer'
 import {
@@ -11,6 +7,10 @@ import {
   useCustomer,
   usePreFetchUseGetCustomerById
 } from '../hooks'
+import { useCustomerFilter } from '@store/customerFilterStore'
+import { useModal } from '@hooks/useModal'
+import Pagination from '@components/Pagination'
+import { TableStyle } from '@styled/Components'
 
 const Table = () => {
   const { filter, setFilter } = useCustomerFilter()

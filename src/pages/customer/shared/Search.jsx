@@ -1,5 +1,5 @@
-import { useCustomerFilter } from '../../../store/customerFilterStore'
-import { Input } from '../../../styled-component/Components'
+import { useCustomerFilter } from '@store/customerFilterStore'
+import { Input } from '@styled/Components'
 
 const Search = () => {
   const { filter, setFilter } = useCustomerFilter()

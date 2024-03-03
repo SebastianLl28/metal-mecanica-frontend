@@ -1,9 +1,10 @@
+import LoaderIcon from '@components/LoaderIcon'
 import { styled } from 'styled-components'
-import LoaderIcon from '../../../components/LoaderIcon'
+
 const LoadingModalCusomer = () => {
-return (
+  return (
     <Main>
-      <LoaderIcon/>
+      <LoaderIcon />
     </Main>
   )
 }

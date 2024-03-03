@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { useCustomerFilter } from '../../../store/customerFilterStore'
 import { useRef, useEffect, useState } from 'react'
+import { useCustomerFilter } from '@store/customerFilterStore'
 
 const CustomerType = () => {
   const { filter, setFilter } = useCustomerFilter()
