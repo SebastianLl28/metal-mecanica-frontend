@@ -38,6 +38,7 @@ const CreateCustomer = ({ close }) => {
           label='Nombre'
           error={errors?.name}
           wrapperClass={`name ${!isPerson && 'span'}`}
+          isRequired={true}
           hookForm={{
             ...register('name', {
               required: {
@@ -46,7 +47,6 @@ const CreateCustomer = ({ close }) => {
               }
             })
           }}
-          isRequired={true}
         />
         {isPerson && (
           <Input

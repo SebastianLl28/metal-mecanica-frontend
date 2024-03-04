@@ -5,3 +5,5 @@ export {
   usePreFetchUseGetCustomerById
 } from './useGetCustomerById'
 export { usePostCustomer } from './usePostCustomer'
+export { usePutCustomer } from './usePutCustomer'
+export { useDeleteCustomer } from './useDeleteCustomer'

@@ -1,29 +1,13 @@
-// TODO: REFACTORIZAR CODE
+import { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
-import { useDeleteCustomer, usePutCustomer } from '../../../hooks/useCustomer'
-import { useAuthStore } from '../../../store/tokenStore'
-import { useEffect, useState, useId } from 'react'
-import {
-  Button,
-  Input,
-  WrapperInput
-} from '../../../styled-component/Components'
-import { useForm } from 'react-hook-form'
 import { PencilFill, TrashFill } from 'react-bootstrap-icons'
-import { useQueryClient } from '@tanstack/react-query'
-import { toast } from 'react-toastify'
+import { useForm } from 'react-hook-form'
 import LoadingModalCusomer from '../shared/LoadingModalCusomer'
-import { useGetCustomerById } from '../hooks/useGetCustomerById'
+import InputTest from '@components/ui/Input'
+import { Button } from '@styled/Components'
+import { useDeleteCustomer, useGetCustomerById, usePutCustomer } from '../hooks'
 
 const ModalCustomer = ({ id, type, setType, close }) => {
-  const idName = useId()
-  const idLastName = useId()
-  const idEmail = useId()
-  const idAddress = useId()
-  const idPhone = useId()
-  const idDocument = useId()
-  const idRuc = useId()
-
   const { data, isLoading, isError } = useGetCustomerById(id)
   const [typeCustomer, setTypeCustomer] = useState(null)
 
@@ -59,38 +43,18 @@ const ModalCustomer = ({ id, type, setType, close }) => {
     }
   }, [data])
 
-  const { mutateAsync } = usePutCustomer(id)
-
-  const queryClient = useQueryClient()
+  const { mutate: mutatePut } = usePutCustomer(id)
 
   const handleOnSubmit = async data => {
-    try {
-      const response = await mutateAsync(data)
-      if (response.status === 200) {
-        queryClient.invalidateQueries('findAllCustomer')
-        setType('read')
-        setTypeCustomer(null)
-        close()
-        toast.success('Cliente Editado')
-      }
-    } catch (error) {
-      close()
-      toast.error('Error en el servidor')
-    }
+    mutatePut(data)
+    close()
   }
 
-  const { mutateAsync: deleteCustomerMutateAsync } = useDeleteCustomer(
-    // token,
-    id
-  )
+  const { mutate: mutateDelete } = useDeleteCustomer(id)
 
   const handleDelete = async () => {
-    const res = await deleteCustomerMutateAsync()
-    if (res.status === 200) {
-      close()
-      queryClient.invalidateQueries('findAllCustomer')
-      toast.success('Cliente Eliminado')
-    }
+    mutateDelete()
+    close()
   }
 
   return (
@@ -99,105 +63,97 @@ const ModalCustomer = ({ id, type, setType, close }) => {
       {(isLoading && !isError) || (!typeCustomer && <LoadingModalCusomer />)}
       {!isLoading && !isError && data && typeCustomer && (
         <div className={`container ${typeCustomer ?? 'null'}`}>
-          <WrapperInput>
-            <label htmlFor={idName}>Nombre</label>
-            <Input
-              type='text'
-              id={idName}
-              {...register('name', { required: true })}
-              isError={errors.name}
-              disabled={type === 'read'}
-            />
-            {errors.name?.type === 'required' && (
-              <span className='error'>El nombre es requerido</span>
-            )}
-          </WrapperInput>
+          <InputTest
+            label='Nombre'
+            error={errors?.name}
+            isRequired={true}
+            disabled={type === 'read'}
+            hookForm={{
+              ...register('name', {
+                required: {
+                  value: true,
+                  message: 'El nombre es requerido'
+                }
+              })
+            }}
+          />
           {typeCustomer === 'person' && (
-            <WrapperInput>
-              <label htmlFor={idLastName}>Apellido</label>
-              <Input
-                type='text'
-                id={idLastName}
-                {...register('lastName', { required: true })}
-                isError={errors.lastName}
-                disabled={type === 'read'}
-              />
-              {errors.lastName?.type === 'required' && (
-                <span className='error'>El apellido es requerido</span>
-              )}
-            </WrapperInput>
+            <InputTest
+              label='Apellido'
+              error={errors?.lastName}
+              isRequired={true}
+              disabled={type === 'read'}
+              hookForm={{
+                ...register('lastName', {
+                  required: {
+                    value: typeCustomer === 'person',
+                    message: 'El apellido es requerido'
+                  }
+                })
+              }}
+            />
           )}
-          {/* email */}
-          <WrapperInput>
-            <label htmlFor={idEmail}>correo</label>
-            <Input
-              type='email'
-              id={idEmail}
-              {...register('email', { required: true })}
-              isError={errors.email}
-              disabled={type === 'read'}
-            />
-            {errors.email?.type === 'required' && (
-              <span className='error'>El correo es requerido</span>
-            )}
-          </WrapperInput>
-          {/* address */}
-          <WrapperInput>
-            <label htmlFor={idAddress}>Direccion</label>
-            <Input
-              type='text'
-              id={idAddress}
-              {...register('address', { required: true })}
-              isError={errors.address}
-              disabled={type === 'read'}
-            />
-            {errors.address?.type === 'required' && (
-              <span className='error'>La direccion es requerida</span>
-            )}
-          </WrapperInput>
-          {/* phone */}
-          <WrapperInput>
-            <label htmlFor={idPhone}>Telefono</label>
-            <Input
-              type='text'
-              id={idPhone}
-              {...register('phone', { required: true })}
-              isError={errors.phone}
-              disabled={type === 'read'}
-            />
-            {errors.phone?.type === 'required' && (
-              <span className='error'>El telefono es requerido</span>
-            )}
-          </WrapperInput>
+          <InputTest
+            label='Correo'
+            error={errors?.email}
+            disabled={type === 'read'}
+            hookForm={{
+              ...register('email')
+            }}
+          />
+          <InputTest
+            label='Direccion'
+            error={errors?.address}
+            isRequired={true}
+            disabled={type === 'read'}
+            hookForm={{
+              ...register('address', {
+                required: {
+                  value: true,
+                  message: 'La direccion es requerida'
+                }
+              })
+            }}
+          />
+          <InputTest
+            label='Telefono'
+            error={errors?.phone}
+            disabled={type === 'read'}
+            hookForm={{
+              ...register('phone')
+            }}
+          />
 
           {typeCustomer === 'person' ? (
-            <WrapperInput>
-              <label htmlFor={idDocument}>Documento</label>
-              <Input
-                type='text'
-                id={idDocument}
-                {...register('document', { required: true })}
-                isError={errors.document}
-                disabled={type === 'read'}
-              />
-              {errors.document?.type === 'required' && (
-                <span className='error'>El documento es requerido</span>
-              )}
-            </WrapperInput>
+            <InputTest
+              label='Documento'
+              error={errors?.document}
+              isRequired={true}
+              disabled={type === 'read'}
+              hookForm={{
+                ...register('document', {
+                  required: {
+                    value: true,
+                    message: 'El documento es requerido'
+                  }
+                })
+              }}
+            />
           ) : (
-            <WrapperInput>
-              <label htmlFor={idRuc}>RUC</label>
-              <Input
-                type='text'
-                id={idRuc}
-                {...register('ruc', { required: true })}
-                isError={errors.ruc}
-                disabled={type === 'read'}
-              />
-              {errors.ruc?.type === 'required' && (
-                <span className='error'>El RUC es requerido</span>
-              )}
-            </WrapperInput>
+            <InputTest
+              label='RUC'
+              error={errors?.ruc}
+              isRequired={true}
+              disabled={type === 'read'}
+              hookForm={{
+                ...register('ruc', {
+                  required: {
+                    value: true,
+                    message: 'El RUC es requerido'
+                  }
+                })
+              }}
+            />
           )}
         </div>
       )}
@@ -308,4 +264,3 @@ const Main = styled.form.attrs(props => ({
     }
   }
 `
-// 314

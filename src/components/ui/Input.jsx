@@ -12,6 +12,7 @@ const Input = ({
   wrapperClass,
   error,
   isRequired = false,
+  // disabled = false,
   ...args
 }) => {
   const id = useId()
@@ -30,6 +31,7 @@ const Input = ({
         {...args}
         {...hookForm}
         $error={error}
+        // disabled={disabled}
       />
       {error ? <span className='error'>{error.message}</span> : null}
     </WrapperInput>
