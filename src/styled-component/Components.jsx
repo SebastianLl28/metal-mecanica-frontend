@@ -2,24 +2,6 @@ import { styled } from 'styled-components'
 import { Link as _Link } from 'react-router-dom'
 import { darken } from 'polished'
 
-export const Input = styled.input`
-  background-color: #fff;
-  border-radius: 5px;
-  outline: none;
-  width: 100%;
-  color: black;
-  padding: 0.7em 0.9em;
-  border: 1px solid;
-  border-color: ${({ $error }) => ($error ? 'red' : '#ccc')};
-  &:focus {
-    border: 1px solid;
-    border-color: ${({ $error }) => ($error ? 'red' : '#000')};
-  }
-  &:disabled {
-    background-color: #eee;
-  }
-`
-
 export const TableStyle = styled.table`
   width: 100%;
   min-height: 35rem;
@@ -100,25 +82,4 @@ export const Container = styled.div`
 
 export const Link = styled(_Link)`
   text-decoration: underline;
-`
-
-export const WrapperInput = styled.div`
-  width: 100%;
-  position: relative;
-
-  & > label {
-    font-size: 1.2rem;
-    line-height: 1.8;
-  }
-
-  & > span.error {
-    color: red;
-    position: absolute;
-    font-size: 0.8em;
-    padding: 0.2em 0 0 0.3em;
-  }
-
-  & > label > .required {
-    color: red;
-  }
 `

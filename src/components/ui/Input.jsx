@@ -1,8 +1,5 @@
 import { useId } from 'react'
-import {
-  WrapperInput,
-  Input as InputStyleComponent
-} from '../../styled-component/Components'
+import styled from 'styled-components'
 
 const Input = ({
   className,
@@ -12,7 +9,6 @@ const Input = ({
   wrapperClass,
   error,
   isRequired = false,
-  // disabled = false,
   ...args
 }) => {
   const id = useId()
@@ -25,7 +21,7 @@ const Input = ({
           {isRequired && <span className='required'>*</span>}
         </label>
       )}
-      <InputStyleComponent
+      <InputStyle
         id={id}
         type={type}
         {...args}
@@ -39,3 +35,41 @@ const Input = ({
 }
 
 export default Input
+
+const InputStyle = styled.input`
+  background-color: #fff;
+  border-radius: 5px;
+  outline: none;
+  width: 100%;
+  color: black;
+  padding: 0.7em 0.9em;
+  border: 1px solid;
+  border-color: ${({ $error }) => ($error ? 'red' : '#ccc')};
+  &:focus {
+    border: 1px solid;
+    border-color: ${({ $error }) => ($error ? 'red' : '#000')};
+  }
+  &:disabled {
+    background-color: #eee;
+  }
+`
+const WrapperInput = styled.div`
+  width: 100%;
+  position: relative;
+
+  & > label {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+
+  & > span.error {
+    color: red;
+    position: absolute;
+    font-size: 0.8em;
+    padding: 0.2em 0 0 0.3em;
+  }
+
+  & > label > .required {
+    color: red;
+  }
+`

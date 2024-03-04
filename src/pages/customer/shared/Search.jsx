@@ -1,5 +1,5 @@
+import Input from '@components/ui/Input'
 import { useCustomerFilter } from '@store/customerFilterStore'
-import { Input } from '@styled/Components'
 
 const Search = () => {
   const { filter, setFilter } = useCustomerFilter()
@@ -7,7 +7,6 @@ const Search = () => {
   return (
     <div>
       <Input
-        type='text'
         value={filter.name}
         placeholder='Buscar a...'
         onChange={e => setFilter({ name: e.target.value, pagination: 1 })}
