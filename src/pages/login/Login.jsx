@@ -37,6 +37,7 @@ const Login = () => {
         <Input
           label='Contraseña'
           error={errors?.password}
+          type='password'
           hookForm={{
             ...register('password', {
               required: 'La contraseña es requerida',
