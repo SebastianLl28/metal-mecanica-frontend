@@ -1,16 +1,21 @@
 import { useMutation } from '@tanstack/react-query'
 import { postRegister } from '../services/register.service'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
-export const useRegister = () =>
-  useMutation({
+export const useRegister = () => {
+  const navigate = useNavigate()
+
+  return useMutation({
     mutationKey: ['register'],
     mutationFn: data => postRegister(data),
     onSuccess: response => {
-      console.log('onSuccess')
-      console.log(response)
+      toast.success(response.data.message)
+      navigate('/')
     },
-    onError: error => {
-      console.log('onError')
-      console.log(error)
+    onError: err => {
+      // console.log(err)
+      toast.error(err.response.data.message)
     }
   })
+}
