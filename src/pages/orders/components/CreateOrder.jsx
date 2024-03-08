@@ -1,36 +1,36 @@
 import styled from 'styled-components'
-import { useCustomer } from '../../../hooks/useCustomer'
-import { useAuthStore } from '../../../store/tokenStore'
+// import { useCustomer } from '../../../hooks/useCustomer'
+// import { useAuthStore } from '../../../store/tokenStore'
 
 const CreateOrder = ({ close }) => {
-  const { token } = useAuthStore()
+  // const { token } = useAuthStore()
 
-  const { data: customerRes, isLoading, isError } = useCustomer(token, {})
+  // const { data: customerRes, isLoading, isError } = useCustomer(token, {})
 
   return (
     <Main>
       <h2>Crear Orden</h2>
 
-      {!isLoading &&
+      {/* {!isLoading &&
         !isError &&
         customerRes &&
-        // <WrapperInput className=''>
-        // <label htmlFor={clientId}>Cliente</label>
-        // <Input type='text' id={clientId} list={dataList} />
-        // <datalist id={dataList}>
-        //   {customerRes.data.results.map(({id, name}) => (
-        //     <option key={id}>{name}</option>
-        //   ))}
-        // </datalist>
+        <WrapperInput className=''>
+        <label htmlFor={clientId}>Cliente</label>
+        <Input type='text' id={clientId} list={dataList} />
+        <datalist id={dataList}>
+          {customerRes.data.results.map(({id, name}) => (
+            <option key={id}>{name}</option>
+          ))}
+        </datalist>
         {
-          /* <datalist id={dataList}>
+           <datalist id={dataList}>
             <option value='1'>1asdas</option>
             <option value='x'>sadasx</option>
             <option value='s'>sdasdddsss</option>
-          </datalist> */
+          </datalist> 
         }
-        // </WrapperInput>
-      }
+         </WrapperInput>
+      } */}
     </Main>
   )
 }
