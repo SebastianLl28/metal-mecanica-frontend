@@ -5,13 +5,14 @@ import {
   Login,
   Orders,
   PrivatePage,
+  Product,
   Profile,
   Register
 } from './pages'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const App = () => { 
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -22,6 +23,7 @@ const App = () => {
           <Route path='/customer' element={<Customer />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/orders' element={<Orders />} />
+          <Route path='/product' element={<Product />} />
         </Route>
         <Route path='/*' element={<h2>404 page</h2>} />
       </Routes>
