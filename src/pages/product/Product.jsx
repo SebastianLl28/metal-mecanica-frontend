@@ -1,8 +1,7 @@
-import Header from './sections/Header'
-import Body from './sections/Body'
 import { Container } from '@styled/Boxs'
+import { Body, Header } from './sections'
 
-const Customer = () => {
+const Product = () => {
   return (
     <Container>
       <Header />
@@ -11,4 +10,4 @@ const Customer = () => {
   )
 }
 
-export default Customer
+export default Product

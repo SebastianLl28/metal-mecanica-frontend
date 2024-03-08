@@ -46,10 +46,6 @@ export const TableStyle = styled.table`
     }
   }
 `
-export const Title = styled.h2`
-  font-size: 2.1em;
-  font-weight: bold;
-`
 export const Button = styled.button.attrs(props => ({
   $padding: props.$padding || '.8em 1em',
   width: props.width || '100%',

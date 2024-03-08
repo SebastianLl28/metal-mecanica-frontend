@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { Button, Title } from '../../../styled-component/Components'
+import { Button } from '../../../styled-component/Components'
 import { useModal } from '../../../hooks/useModal'
+import { Title } from '@styled/Text'
 // import CreateOrder from "./CreateOrder"
 
 const Header = () => {
