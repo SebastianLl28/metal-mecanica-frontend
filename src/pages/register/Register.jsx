@@ -1,8 +1,9 @@
 import { styled } from 'styled-components'
 import { useForm } from 'react-hook-form'
-import { Button, Container, Link } from '../../styled-component/Components'
+import { Container } from '../../styled-component/Components'
 import { useRegister } from './hooks/useRegister'
 import Input from '@components/ui/Input'
+import { Link, Button } from '@styled'
 
 const Register = () => {
   const {

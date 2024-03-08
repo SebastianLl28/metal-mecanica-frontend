@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import CreateCustomer from '../modals/CreateCustomer'
 import { useModal } from '@hooks/useModal'
-import { Button } from '@styled/Components'
-import { Title } from '@styled/Text'
+import { Button, Title } from '@styled'
 
 const Header = () => {
   const { ModalContainer, handleOpen, handleClose } = useModal()

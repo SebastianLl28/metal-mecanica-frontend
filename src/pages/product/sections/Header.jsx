@@ -1,6 +1,5 @@
 import { styled } from 'styled-components'
-import { Button } from '@styled/Components'
-import { Title } from '@styled/Text'
+import { Title, Button } from '@styled'
 
 export const Header = () => {
   return (

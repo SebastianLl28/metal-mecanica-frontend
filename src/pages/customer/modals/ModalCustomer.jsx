@@ -4,8 +4,8 @@ import { PencilFill, TrashFill } from 'react-bootstrap-icons'
 import { useForm } from 'react-hook-form'
 import LoadingModalCusomer from '../shared/LoadingModalCusomer'
 import InputTest from '@components/ui/Input'
-import { Button } from '@styled/Components'
 import { useDeleteCustomer, useGetCustomerById, usePutCustomer } from '../hooks'
+import { Button } from '@styled/Buttons'
 
 const ModalCustomer = ({ id, type, setType, close }) => {
   const { data, isLoading, isError } = useGetCustomerById(id)

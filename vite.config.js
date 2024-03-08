@@ -35,7 +35,7 @@ export default defineConfig({
         find: '@styled',
         replacement: path.resolve(path.join(__dirname, '/src/styled-component'))
       },
-      { find: '@', replacement: path.resolve(path.join(__dirname, '/src')) }
+      { find: '@src', replacement: path.resolve(path.join(__dirname, '/src')) }
     ]
   }
 })

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import TypeClient from '../components/TypeClient'
 import { usePostCustomer } from '../hooks/usePostCustomer'
 import Input from '@components/ui/Input'
-import { Button } from '@styled/Components'
+import { Button } from '@styled'
 
 const CreateCustomer = ({ close }) => {
   const [isPerson, setIsPerson] = useState(true)
