@@ -2,6 +2,7 @@ import { darken } from 'polished'
 import styled from 'styled-components'
 
 export const Button = styled.button.attrs(props => ({
+  $margin: props.$margin || '0',
   $padding: props.$padding || '.8em 1em',
   width: props.width || '100%',
   fontSize: props.fontSize || '1.1em',
@@ -11,6 +12,7 @@ export const Button = styled.button.attrs(props => ({
   background-color: ${props => props.$bg};
   width: ${props => props.width};
   padding: ${props => props.$padding};
+  margin: ${props => props.$margin};
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;

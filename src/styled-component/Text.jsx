@@ -15,20 +15,20 @@ export const Text = styled.p.attrs(props => ({
   $fontFamily: props.$fontFamily || 'inherit',
   $weight: props.$weight || 'normal',
   $lineHeight: props.$lineHeight || '1.5',
-  $textDecoration: props.$textDecoration || 'none',
+  $decoration: props.$decoration || 'none',
   $align: props.$align || 'left',
-  $letterSpacing: props.$letterSpacing || 'normal',
+  $spacing: props.$spacing || 'normal',
   $wordSpacing: props.$wordSpacing || 'normal',
-  $textTransform: props.$textTransform || 'none'
+  $transform: props.$transform || 'none'
 }))`
   font-size: ${props => props.$fontSize};
   color: ${props => props.$color};
   font-family: ${props => props.$fontFamily};
   font-weight: ${props => props.$weight};
   line-height: ${props => props.$lineHeight};
-  text-decoration: ${props => props.$textDecoration};
+  text-decoration: ${props => props.$decoration};
   text-align: ${props => props.$align};
-  letter-spacing: ${props => props.$letterSpacing};
+  letter-spacing: ${props => props.$spacing};
   word-spacing: ${props => props.$wordSpacing};
-  text-transform: ${props => props.$textTransform};
+  text-transform: ${props => props.$transform};
 `
