@@ -13,13 +13,18 @@ module.exports = {
       parserOptions: {
         sourceType: 'script'
       }
+    },
+    {
+      env: {
+        'cypress/globals': true
+      }
     }
   ],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
-  plugins: ['react'],
+  plugins: ['react', 'eslint-plugin-cypress'],
   rules: {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
