@@ -14,8 +14,8 @@ export const useLogin = () => {
       localStorage.setItem('token', data.data.token)
       navigate('/dashboard')
     },
-    onError: error => {
-      toast.error(error.response.data.message ?? 'Error en el servidor')
+    onError: () => {
+      toast.error('Correo o contraseña incorrectos')
     }
   })
 }

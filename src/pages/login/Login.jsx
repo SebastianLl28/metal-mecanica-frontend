@@ -1,16 +1,20 @@
 import { styled } from 'styled-components'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Container } from '../../styled-component/Components'
 import { useLogin } from './hooks/useLogin'
 import Input from '../../components/ui/Input'
 import { Button, Link } from '@styled'
+import { LoginSchema } from './schema/LoginSchema'
 
 const Login = () => {
   const {
     handleSubmit,
     register,
     formState: { errors }
-  } = useForm()
+  } = useForm({
+    resolver: yupResolver(LoginSchema)
+  })
 
   const { mutate } = useLogin()
 
@@ -24,30 +28,15 @@ const Login = () => {
         <h2>Iniciar Sesión</h2>
         <Input
           label='Correo'
+          type='email'
           error={errors?.email}
-          hookForm={{
-            ...register('email', {
-              required: 'El correo es requerido',
-              pattern: {
-                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                message: 'El correo tiene que estar en el formato adecuado'
-              }
-            })
-          }}
+          hookForm={{ ...register('email') }}
         />
         <Input
           label='Contraseña'
           error={errors?.password}
           type='password'
-          hookForm={{
-            ...register('password', {
-              required: 'La contraseña es requerida',
-              minLength: {
-                value: 5,
-                message: 'La contraseña tiene que tener al menos 5 caracteres'
-              }
-            })
-          }}
+          hookForm={{ ...register('password') }}
         />
         <Button type='submit'>Ingresar</Button>
         <p>
